@@ -95,6 +95,8 @@ private sealed interface EditAction {
     data object Hide : EditAction
     /** For an HDMI device: which port it's really on (some announce the wrong one). */
     data class Port(val number: Int, val current: Boolean) : EditAction
+    data object AppInfo : EditAction
+    data object Uninstall : EditAction
 }
 
 @Composable
@@ -102,6 +104,8 @@ private fun EditAction.label(): String = when (this) {
     EditAction.MoveToTop -> stringResource(R.string.move_to_top)
     EditAction.Hide -> stringResource(R.string.hide)
     is EditAction.Port -> stringResource(R.string.hdmi_port, number) + if (current) "  ✓" else ""
+    EditAction.AppInfo -> stringResource(R.string.app_info)
+    EditAction.Uninstall -> stringResource(R.string.uninstall)
 }
 
 /**
@@ -121,7 +125,13 @@ private class Editor {
 }
 
 @Composable
-fun HomeScreen(vm: HomeViewModel, onLaunch: (TvApp) -> Boolean, onSettings: () -> Unit) {
+fun HomeScreen(
+    vm: HomeViewModel,
+    onLaunch: (TvApp) -> Boolean,
+    onSettings: () -> Unit,
+    onAppInfo: (TvApp) -> Unit,
+    onUninstall: (TvApp) -> Unit,
+) {
     val apps = vm.apps
     val reveal by animateFloatAsState(
         targetValue = if (apps.isEmpty()) 0f else 1f,
@@ -133,7 +143,7 @@ fun HomeScreen(vm: HomeViewModel, onLaunch: (TvApp) -> Boolean, onSettings: () -
     Box(Modifier.fillMaxSize().drawBehind { if (reveal < 1f) drawRect(Color.Black) }) {
         if (apps.isNotEmpty()) {
             Box(Modifier.fillMaxSize().graphicsLayer { alpha = reveal }) {
-                Home(vm, apps, onLaunch, onSettings)
+                Home(vm, apps, onLaunch, onSettings, onAppInfo, onUninstall)
             }
         }
     }
@@ -145,6 +155,8 @@ private fun Home(
     apps: List<TvApp>,
     onLaunch: (TvApp) -> Boolean,
     onSettings: () -> Unit,
+    onAppInfo: (TvApp) -> Unit,
+    onUninstall: (TvApp) -> Unit,
 ) {
     val editor = remember { Editor() }
     var launching by remember { mutableStateOf<Launch?>(null) }
@@ -204,6 +216,9 @@ private fun Home(
                 val current = vm.portOf(list[i])
                 vm.ports().forEach { add(EditAction.Port(it, it == current)) }
             }
+            // Apps only: an HDMI device has no app behind it, and Settings is the TV's own.
+            if (!list[i].isInput && !list[i].isSettings && list[i].packageName != null) add(EditAction.AppInfo)
+            if (list[i].canUninstall) add(EditAction.Uninstall)
         }
         if (items.isEmpty()) return
         editor.selected = 0
@@ -256,6 +271,15 @@ private fun Home(
                         is EditAction.Port -> if (app != null) {
                             commit()
                             vm.setPort(app, action.number)
+                        }
+                        // Any move in progress is kept; the app's own screens take it from here.
+                        EditAction.AppInfo -> if (app != null) {
+                            commit()
+                            onAppInfo(app)
+                        }
+                        EditAction.Uninstall -> if (app != null) {
+                            commit()
+                            onUninstall(app)
                         }
                     }
                     endEdit()

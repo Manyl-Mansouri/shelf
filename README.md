@@ -39,7 +39,7 @@ Like tvOS, everything happens from the remote:
 | **◀ ▶ ▲ ▼** while it jiggles | Moves it through the grid. The other apps slide out of the way. |
 | **OK** | Drops it there. The new order is saved right away. |
 | **Back** | Cancels. Everything slides back to where it was. |
-| **Hold OK again** while it jiggles | Opens a small menu: **Move to top row** (puts it first; shown for apps below the top row) and **Hide**. Pick with ▲ ▼ and OK, or press Back to close the menu. |
+| **Hold OK again** while it jiggles | Opens a small menu: **Move to top row** (puts it first; shown for apps below the top row), **Hide**, **App info** (the app's page in the TV's settings) and **Uninstall** (for apps you installed; Android asks to confirm). Pick with ▲ ▼ and OK, or press Back to close the menu. |
 
 - **Hidden apps.** Once you've hidden something, a dim **Hidden apps** tile sits at the end of the grid. Open it and press OK on an app to put it back. Restored apps return at the end of the grid. The tile disappears when nothing is hidden.
 - **Settings** can be moved but not hidden, so you can always reach the TV's settings.
@@ -48,7 +48,38 @@ Like tvOS, everything happens from the remote:
 
 ## Put it on your TV
 
-You need the TV and this Mac on the same Wi-Fi.
+Two ways to set it up:
+
+- **From the TV alone.** Nothing to install on a computer. Google's home screen stays installed and Shelf's helper sends Home to Shelf, so you may see Google's home for a split second.
+- **From a computer.** A few more steps, but Google's home screen is switched off entirely.
+
+### From the TV alone
+
+**1. Get Downloader.** In the Google Play Store on the TV, install **Downloader** by AFTVnews.
+
+**2. Download Shelf.** Open Downloader, type this address and press **Go**:
+
+```
+github.com/manyl-mansouri/shelf/releases/latest/download/shelf.apk
+```
+
+The first time, Android asks to let Downloader install apps: choose **Settings** and turn on Downloader (it's also under Settings → Apps → Special app access → Install unknown apps). Then choose **Install**. Downloader offers to delete the APK afterwards; you can.
+
+**3. Open Shelf** from your apps and choose **Allow** when it asks to read TV listings. That lets the Top Shelf show what apps publish, like what you're partway through.
+
+**4. Make Home open Shelf.** Settings → Accessibility → **Shelf** → **Enable** → **OK**. (On some TVs it's under Settings → System → Accessibility.)
+
+Android warns that the service "can collect all of the text you type". It shows that for every accessibility service. Shelf's helper ignores every button except Home, only checks which app is in front and whether its window is still blank, and nothing leaves the TV. It's also what gives you tvOS-style app switching (step 5 of the computer setup explains it; from the TV, it's already on).
+
+Press Home, and you're on Shelf.
+
+- **Updating:** do step 2 again (the address always gets the latest). Updating switches the helper off, so do step 4 again too.
+- **Undoing:** switch Shelf off in Settings → Accessibility, then uninstall it from Settings → Apps.
+- **TCL TVs:** TCL only lets apps it allows to "auto start" run in the background, so after a restart the helper can be on but not working (Home goes to Google's home). The computer setup below allows it.
+
+### From a computer
+
+You need the TV and a Mac (or Linux PC) on the same Wi-Fi.
 
 **1. Turn on developer mode on the TV**
 Settings → System → About → scroll to **Android TV OS build** and press OK on it 7 times.
@@ -78,10 +109,10 @@ Allow the prompt on the TV, then build and install:
 ./tv.sh install
 ```
 
-No Java or Android SDK? Download `shelf-<version>.apk` from the same [release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and pass it in instead (you still need `adb`, from Android's [platform tools](https://developer.android.com/tools/releases/platform-tools)):
+No Java or Android SDK? Download `shelf.apk` from the same [release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and pass it in instead (you still need `adb`, from Android's [platform tools](https://developer.android.com/tools/releases/platform-tools)):
 
 ```bash
-./tv.sh install ~/Downloads/shelf-1.1.apk
+./tv.sh install ~/Downloads/shelf.apk
 ```
 
 **4. Make Home open Shelf**
@@ -104,6 +135,18 @@ Either way, `./tv.sh restore` puts the TV back exactly as it was.
 ```
 
 This turns on Shelf's accessibility helper (also under Settings → Accessibility → Shelf). When you press Home, it remembers what the app looked like. Opening the app again zooms into that picture and holds it over the app until the app has really drawn, so apps like YouTube no longer flash black on reopen. Coming back, the picture shrinks into the tile. It only checks which app is in front and whether its window is still blank, and nothing leaves the TV. Without it, apps fade in over a dark shade of their colour.
+
+## Does it work on my TV?
+
+Probably, if it runs Google TV or Android TV, but it's only been tested on these:
+
+| Device | Android TV OS | Status | Notes |
+|---|---|---|---|
+| TCL Smart TV Pro (Google TV) | 14 | ✅ Works | Shelf's daily driver, set up from a computer. For the helper to keep working after restarts, TCL needs "auto start" allowed (`./tv.sh install` does it). 1080p interface on a 4K panel. |
+| Android TV emulator (Google TV image) | 14 | ✅ Works | Used for development and the screenshots above. Both setups work. |
+| Fire TV | | ❓ Untested | Its home screen is Amazon's own, which Shelf's helper doesn't recognise yet. |
+
+Tried it on something else? Please [send a device report](https://github.com/Manyl-Mansouri/shelf/issues/new?template=device-report.yml), even if everything works. It takes a minute and fills in this table.
 
 ## Things to know
 

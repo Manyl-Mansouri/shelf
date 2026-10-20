@@ -1,0 +1,77 @@
+name: Device report
+description: Tell us how Shelf runs on your TV or streaming box, good or bad.
+title: "[Device] "
+labels: ["device report"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Shelf is only tested on one TV, so every report helps, including "it all works".
+        Your answers go in the compatibility table in the README.
+  - type: input
+    id: device
+    attributes:
+      label: TV or box
+      description: Brand and model, as shown in Settings → System → About.
+      placeholder: TCL 55QM7K, Chromecast with Google TV (4K), Nvidia Shield…
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Home screen it came with
+      options:
+        - Google TV
+        - Android TV (the older "Apps / Channels" home)
+        - Other / not sure
+    validations:
+      required: true
+  - type: input
+    id: android
+    attributes:
+      label: Android TV OS version
+      description: Settings → System → About → Android TV OS version.
+      placeholder: "14"
+    validations:
+      required: true
+  - type: input
+    id: shelf
+    attributes:
+      label: Shelf version
+      description: Settings → Apps → Shelf shows it.
+      placeholder: "1.2"
+    validations:
+      required: true
+  - type: dropdown
+    id: setup
+    attributes:
+      label: How Home opens Shelf
+      options:
+        - "From the TV: the accessibility helper"
+        - "From a computer: ./tv.sh takeover"
+        - "From a computer: ./tv.sh override"
+        - It doesn't
+    validations:
+      required: true
+  - type: checkboxes
+    id: works
+    attributes:
+      label: What works
+      description: Tick everything that does.
+      options:
+        - label: Home opens Shelf
+        - label: The Top Shelf shows art for streaming apps
+        - label: Moving around feels smooth
+        - label: Apps open and close with the zoom
+        - label: HDMI devices appear as tiles (if you have any)
+        - label: Voice search from the remote still works
+  - type: textarea
+    id: problems
+    attributes:
+      label: What doesn't, or looks wrong
+      description: What you did, what happened, and a photo of the screen if you can.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Other launchers you've used on this device, odd settings, etc.

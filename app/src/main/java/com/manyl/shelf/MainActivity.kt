@@ -4,6 +4,7 @@ import android.app.ActivityOptions
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
@@ -20,6 +21,11 @@ class MainActivity : ComponentActivity() {
     /** True from coming back on screen until fully resumed: a Home press in that window came from inside an app. */
     private var returning = false
     private var launched = false
+    /**
+     * Whether to ask for the Top Shelf permission next time Shelf is on screen. Asked until
+     * answered: a Home press, or the helper bouncing Home here, closes the dialog unanswered.
+     */
+    private var askListings = true
 
     @OptIn(InternalComposeUiApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,16 +38,13 @@ class MainActivity : ComponentActivity() {
         if (systemScale != 0f) {
             view.setParentCompositionContext(view.createLifecycleAwareWindowRecomposer(DesignedMotion, lifecycle))
         }
-        view.setContent { HomeScreen(vm = vm, onLaunch = ::launch, onSettings = ::openSettings) }
+        view.setContent {
+            HomeScreen(vm = vm, onLaunch = ::launch, onSettings = ::openSettings, onAppInfo = ::openAppInfo, onUninstall = ::uninstall)
+        }
         setContentView(view)
         // Home always paints an opaque picture, so the window's own black fill underneath is a
         // wasted full-screen pass on every frame. (The theme's black still shows while starting.)
         window.setBackgroundDrawable(null)
-        // Lets the Top Shelf show what apps publish for the home screen. Asked once; until it's
-        // granted (or if it's declined) every app gets its brand treatment instead.
-        if (checkSelfPermission(ContentSource.READ_TV_LISTINGS) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(arrayOf(ContentSource.READ_TV_LISTINGS), 1)
-        }
     }
 
     private object DesignedMotion : MotionDurationScale {
@@ -50,6 +53,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        // No answer means the dialog was closed under the user; ask again when Shelf is back.
+        if (grantResults.isEmpty()) askListings = true
         if (grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED) vm.refreshShelves(maxAgeMs = 0)
     }
 
@@ -64,6 +69,12 @@ class MainActivity : ComponentActivity() {
         super.onResume()
         returning = false
         HomeOverrideService.shelfInFront = true
+        // Lets the Top Shelf show what apps publish for the home screen. Until it's granted (or
+        // if it's declined) every app gets its brand treatment instead.
+        if (askListings && checkSelfPermission(ContentSource.READ_TV_LISTINGS) != PackageManager.PERMISSION_GRANTED) {
+            askListings = false
+            requestPermissions(arrayOf(ContentSource.READ_TV_LISTINGS), 1)
+        }
         // Back from an app: the screen it zoomed into shrinks back into its tile. Checked here,
         // not in onStart: leave an app within a moment of opening it and Shelf was never
         // stopped, so it never "starts" again, only resumes.
@@ -108,6 +119,24 @@ class MainActivity : ComponentActivity() {
 
     private fun openSettings() {
         runCatching { startActivity(Intent(Settings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+    }
+
+    /**
+     * The app's page in the TV's settings: storage, permissions, force stop. Opened in Shelf's own
+     * task, so Back returns here rather than to whatever the Settings app had open last.
+     */
+    private fun openAppInfo(app: TvApp) {
+        val pkg = app.packageName ?: return
+        runCatching {
+            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", pkg, null)))
+        }.onFailure { Toast.makeText(this, "${app.label}'s info can't be opened", Toast.LENGTH_SHORT).show() }
+    }
+
+    /** Asks Android to uninstall [app]; it confirms first. The grid drops the tile once it's gone. */
+    private fun uninstall(app: TvApp) {
+        val pkg = app.packageName ?: return
+        runCatching { startActivity(Intent(Intent.ACTION_DELETE, Uri.fromParts("package", pkg, null))) }
+            .onFailure { Toast.makeText(this, "${app.label} can't be uninstalled from here", Toast.LENGTH_SHORT).show() }
     }
 
     /**

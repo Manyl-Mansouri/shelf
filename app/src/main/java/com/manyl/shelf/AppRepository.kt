@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
 import android.graphics.drawable.Drawable
 import android.provider.Settings
 import android.util.DisplayMetrics
@@ -35,6 +36,8 @@ data class Library(val shown: List<TvApp>, val hidden: List<TvApp>, val hiddenTi
 /** Settings can be moved but never hidden, so there's always a way into the TV's settings. */
 val TvApp.isSettings get() = key == AppRepository.SETTINGS_KEY || key.startsWith(AppRepository.TV_SETTINGS)
 val TvApp.isHiddenTile get() = key == AppRepository.HIDDEN_KEY
+/** Apps the user installed. System apps (and their updates) stay: Android only rolls those back. */
+val TvApp.canUninstall get() = info?.applicationInfo?.let { it.flags and ApplicationInfo.FLAG_SYSTEM == 0 } == true
 
 class AppRepository(private val context: Context) {
     private val pm = context.packageManager

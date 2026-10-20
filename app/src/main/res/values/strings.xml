@@ -5,6 +5,8 @@
     <string name="hidden_apps_hint">Press OK on an app to put it back on the Home screen.</string>
     <string name="move_to_top">Move to top row</string>
     <string name="hide">Hide</string>
+    <string name="app_info">App info</string>
+    <string name="uninstall">Uninstall</string>
     <string name="edit_hint">"◀ ▶ ▲ ▼  Move     ·     OK  Done     ·     Hold OK  Options     ·     Back  Cancel"</string>
     <string name="override_label">Shelf</string>
     <string name="override_description">Lets Shelf open and close apps the way tvOS does: it remembers what an app looked like when you pressed Home, and keeps that picture up while the app reopens so you never see it redraw from black. Also sends the Home button to Shelf if the stock home screen comes back.</string>

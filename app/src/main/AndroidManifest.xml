@@ -4,6 +4,8 @@
     <!-- Top Shelf: what apps publish to Android TV's "Watch Next" and preview rows, and their artwork. -->
     <uses-permission android:name="android.permission.READ_TV_LISTINGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Uninstall from the hold-OK menu (Android still asks to confirm). -->
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
 
     <uses-feature android:name="android.software.leanback" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
