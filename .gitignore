@@ -1,0 +1,12 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.apk
+.kotlin/
+# Local screenshots from ./tv.sh shot (they show what's on your TV)
+/screenshot.png
+# Signing keys
+*.jks
+*.keystore
+keystore.properties

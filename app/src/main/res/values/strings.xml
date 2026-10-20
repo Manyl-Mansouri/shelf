@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Shelf</string>
+    <string name="settings">Settings</string>
+    <string name="hidden_apps">Hidden apps</string>
+    <string name="hidden_apps_hint">Press OK on an app to put it back on the Home screen.</string>
+    <string name="move_to_top">Move to top row</string>
+    <string name="hide">Hide</string>
+    <string name="edit_hint">"◀ ▶ ▲ ▼  Move     ·     OK  Done     ·     Hold OK  Options     ·     Back  Cancel"</string>
+    <string name="override_label">Shelf</string>
+    <string name="override_description">Lets Shelf open and close apps the way tvOS does: it remembers what an app looked like when you pressed Home, and keeps that picture up while the app reopens so you never see it redraw from black. Also sends the Home button to Shelf if the stock home screen comes back.</string>
+    <string name="continue_watching">Continue Watching</string>
+    <string name="play">Play</string>
+    <string name="open">Open</string>
+    <string name="hdmi_port">HDMI %1$d</string>
+    <string name="popular_on">Popular on %1$s</string>
+    <string name="top_albums">Most played this week</string>
+</resources>

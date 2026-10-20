@@ -1,0 +1,19 @@
+# package	label	background (one or two colors)	text color	banner text
+com.netflix.ninja	Netflix	#000000	#E50914	NETFLIX
+com.amazon.amazonvideo.livingroom	Prime Video	#00A8E1	#FFFFFF	prime video
+com.apple.atve.androidtv.appletv	Apple TV	#1C1C1E,#000000	#FFFFFF	tv
+com.disney.disneyplus	Disney+	#0A1A3A,#0E6E8C	#FFFFFF	Disney+
+com.google.android.youtube.tvmusic	YouTube Music	#0F0F0F	#FF2D2D	YouTube Music
+com.google.android.play.games	Google Play Games	#F4F4F4	#1E8E3E	Google Play Games
+com.google.android.videos	Google TV	#F4F4F4	#C5221F	Google Play Movies & TV
+com.limelight	Moonlight	#2A2A2E	#FFFFFF	Moonlight
+com.tcl.dashboard	TCL Home	#FFFFFF	#D21F26	TCL HOME
+com.tcl.tv.plus	TCLtv+	#E8F3FF,#F5D9EC	#D21F26	TCLtv+
+com.tcl.exhibit	T-Exhibition	#F2B79A,#E89A80	#FFFFFF	T-Exhibition
+com.tcl.t_solo	T-solo	#6E55D8	#FFFFFF	T-solo
+com.tcl.suspension	Quick panel	#8C9AC0,#6E7BA0	#FFFFFF	Quick panel
+com.tcl.ocean.instructions	User Guide	#8D98B8,#717C9C	#FFFFFF	User Guide
+com.tcl.smartalexa	Alexa	#1E9BD7	#FFFFFF	alexa
+com.tcl.ui_mediaCenter	Media Center	#2D6CDF	#FFFFFF	Media Center
+com.tcl.browser	Browser	#3A5BD9	#FFFFFF	Browser
+com.tcl.tv	TV	#D3201F	#FFFFFF	TV

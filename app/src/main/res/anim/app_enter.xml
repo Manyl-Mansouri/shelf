@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The opening app fades in over Shelf's dark zoom of its tile, after a short hold. On a repeat
+  open, Android first shows a screenshot of where you left the app, and some apps (YouTube) then
+  redraw from black; holding the app invisible for a beat lets that settle, so you see one clean
+  fade from dark into the live screen. (Times here are halved by TCL's 0.5× transition speed.)
+-->
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromAlpha="0" android:toAlpha="1"
+    android:startOffset="700"
+    android:duration="460"
+    android:fillBefore="true"
+    android:fillEnabled="true"
+    android:interpolator="@android:interpolator/decelerate_cubic" />
