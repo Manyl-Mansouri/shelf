@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
@@ -281,8 +282,10 @@ private fun Home(
         fun requester(key: String) = requesters.getOrPut(key) { FocusRequester() }
 
         // Derived, so moving along a row doesn't recompose the whole screen: only a change of row
-        // does. (A lifted app carries the screen with it as it moves between rows.)
-        val focusedRow by remember(tiles) { derivedStateOf { tiles.indexOfFirst { it.key == focusedKey }.coerceAtLeast(0) / COLUMNS } }
+        // does. (A lifted app carries the screen with it as it moves between rows.) One state for
+        // good that reads the latest tiles, so long-running effects see rows after a rearrange.
+        val currentTiles by rememberUpdatedState(tiles)
+        val focusedRow by remember { derivedStateOf { currentTiles.indexOfFirst { it.key == focusedKey }.coerceAtLeast(0) / COLUMNS } }
         var shelfKey by remember { mutableStateOf(apps.first().key) }
 
         fun focus(key: String) {
@@ -320,10 +323,17 @@ private fun Home(
             focus(target ?: tiles.first().key)
         }
         // The Top Shelf follows focus along the top row, with a short settle so fast
-        // scrubbing doesn't strobe through artwork.
+        // scrubbing doesn't strobe through artwork. Leaving the top row settles it at once on
+        // the last app there, so pressing down mid-settle doesn't leave an older app's art.
         LaunchedEffect(Unit) {
+            var lastTop: String? = null
             snapshotFlow { focusedKey to focusedRow }.collectLatest { (key, row) ->
-                if (key == null || row != 0) return@collectLatest
+                if (key == null) return@collectLatest
+                if (row != 0) {
+                    lastTop?.let { shelfKey = it }
+                    return@collectLatest
+                }
+                lastTop = key
                 delay(110)
                 shelfKey = key
             }
