@@ -96,6 +96,7 @@ This turns on Shelf's accessibility helper (also under Settings → Accessibilit
 ## Development
 
 - Kotlin and Jetpack Compose. Third-party fonts and artwork, and their licences, are listed in `licenses/ATTRIBUTION.md`.
+- Release builds are signed with the key named in `keystore.properties` (gitignored: `storeFile`, `storePassword`, `keyAlias`, `keyPassword`). Without that file they're signed with your local debug key.
 - `./tv.sh shot` saves a screenshot from the TV.
 - With both the TV and the emulator connected, pick one for `tv.sh` with `ANDROID_SERIAL=emulator-5554 ./tv.sh install`.
 - Simulate holding OK: `adb shell input keyevent --longpress KEYCODE_DPAD_CENTER`.
