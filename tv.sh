@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # Shelf: build, install and switch the home screen on a Google TV over Wi-Fi adb.
 set -euo pipefail
+# An APK given to install is relative to where you ran this, so pin it down before moving here.
+if [[ "${1:-}" == install && -n "${2:-}" ]]; then
+  [[ -f "$2" ]] || { echo "No such APK: $2"; exit 1; }
+  set -- "$1" "$(cd "$(dirname "$2")" && pwd)/$(basename "$2")"
+fi
 cd "$(dirname "$0")"
 
 export JAVA_HOME="${JAVA_HOME:-/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home}"

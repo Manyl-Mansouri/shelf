@@ -60,6 +60,8 @@ Settings → System → Developer options → **Wireless debugging** → on → 
 
 **3. From this folder on the Mac**
 
+No copy of this folder yet? Download **Source code (zip)** from the [latest release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and unzip it, or `git clone https://github.com/Manyl-Mansouri/shelf`. Then, in Terminal, `cd` into it.
+
 ```bash
 ./tv.sh pair 192.168.1.50:37123
 ```
@@ -76,7 +78,7 @@ Allow the prompt on the TV, then build and install:
 ./tv.sh install
 ```
 
-No Java or Android SDK? Download `shelf-<version>.apk` from the [latest release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and pass it in instead (you still need `adb`, from Android's [platform tools](https://developer.android.com/tools/releases/platform-tools)):
+No Java or Android SDK? Download `shelf-<version>.apk` from the same [release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and pass it in instead (you still need `adb`, from Android's [platform tools](https://developer.android.com/tools/releases/platform-tools)):
 
 ```bash
 ./tv.sh install ~/Downloads/shelf-1.1.apk
