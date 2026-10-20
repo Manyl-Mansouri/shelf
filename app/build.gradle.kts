@@ -15,8 +15,8 @@ android {
         applicationId = "com.manyl.shelf"
         minSdk = 28
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
     }
 
     // The release key lives outside the repo; keystore.properties (gitignored) says where.

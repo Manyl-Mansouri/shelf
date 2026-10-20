@@ -28,8 +28,8 @@ helper_on() {
 case "${1:-help}" in
   pair)      adb pair "$2" ;;                     # ./tv.sh pair 192.168.1.50:37123  (then type the 6-digit code)
   connect)   adb connect "$2" ;;                  # ./tv.sh connect 192.168.1.50:41234
-  install)
-    ./gradlew assembleRelease -q
+  install)   # ./tv.sh install [shelf.apk]  (builds from source when no APK is given)
+    if [[ -n "${2:-}" ]]; then APK=$2; else ./gradlew assembleRelease -q; fi
     adb install -r "$APK"
     # Lets the Top Shelf read what apps publish for the home screen (also asked on first launch).
     adb shell pm grant "$PKG" android.permission.READ_TV_LISTINGS || true
@@ -64,6 +64,6 @@ case "${1:-help}" in
   shot)      adb exec-out screencap -p > "${2:-screenshot.png}" && echo "Saved ${2:-screenshot.png}" ;;
   *)
     sed -n '2p' "$0"
-    echo "Usage: ./tv.sh pair <ip:port> | connect <ip:port> | install | takeover | override | helper | restore | uninstall | shot [file]"
+    echo "Usage: ./tv.sh pair <ip:port> | connect <ip:port> | install [apk] | takeover | override | helper | restore | uninstall | shot [file]"
     ;;
 esac

@@ -1,8 +1,19 @@
 # Shelf
 
+[![Build](https://github.com/Manyl-Mansouri/shelf/actions/workflows/build.yml/badge.svg)](https://github.com/Manyl-Mansouri/shelf/actions/workflows/build.yml)
+[![Release](https://img.shields.io/github/v/release/Manyl-Mansouri/shelf)](https://github.com/Manyl-Mansouri/shelf/releases/latest)
+
 A minimal home screen for Google TV, modelled on tvOS 26. It shows your apps, a Top Shelf for the app you're on, and nothing else. No ads, rows of recommendations or "For you" tabs.
 
 > **A personal project.** Shelf was built for one TV (a TCL Google TV on Android 14, 1080p UI) and is only tested there. It should run on other Google TVs, but layout, HDMI inputs and performance may need work. Issues and pull requests are welcome, but there's no promise of support.
+
+![The Top Shelf on Netflix: The Diplomat, popular on Netflix right now](docs/top-shelf.jpg)
+
+| Browsing the grid | Apple TV's Top Shelf |
+|---|---|
+| ![The grid of apps under a dark wash of the artwork](docs/browse.jpg) | ![Slow Horses, popular on Apple TV](docs/top-shelf-apple-tv.jpg) |
+
+<sub>Screenshots from the Android TV emulator, signed in to none of the services: the art is what each one has popular right now.</sub>
 
 ## How it behaves
 
@@ -63,6 +74,12 @@ Allow the prompt on the TV, then build and install:
 
 ```bash
 ./tv.sh install
+```
+
+No Java or Android SDK? Download `shelf-<version>.apk` from the [latest release](https://github.com/Manyl-Mansouri/shelf/releases/latest) and pass it in instead (you still need `adb`, from Android's [platform tools](https://developer.android.com/tools/releases/platform-tools)):
+
+```bash
+./tv.sh install ~/Downloads/shelf-1.1.apk
 ```
 
 **4. Make Home open Shelf**

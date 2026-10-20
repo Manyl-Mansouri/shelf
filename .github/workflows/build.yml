@@ -1,0 +1,19 @@
+# Builds Shelf the way a fresh clone would: no release key, so it signs with a throwaway debug key.
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - run: ./gradlew assembleRelease --no-daemon
