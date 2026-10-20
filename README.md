@@ -1,19 +1,19 @@
-# Shelf
+# Shelf: a tvOS-style launcher for Google TV
 
 [![Build](https://github.com/Manyl-Mansouri/shelf/actions/workflows/build.yml/badge.svg)](https://github.com/Manyl-Mansouri/shelf/actions/workflows/build.yml)
 [![Release](https://img.shields.io/github/v/release/Manyl-Mansouri/shelf)](https://github.com/Manyl-Mansouri/shelf/releases/latest)
 
-A minimal home screen for Google TV, modelled on tvOS 26. It shows your apps, a Top Shelf for the app you're on, and nothing else. No ads, rows of recommendations or "For you" tabs.
+An ad-free launcher (home screen) for Google TV and Android TV, modelled on tvOS 26. It shows your apps, a Top Shelf for the app you're on, and nothing else. No ads, rows of recommendations or "For you" tabs.
 
 > **A personal project.** Shelf was built for one TV (a TCL Google TV on Android 14, 1080p UI) and is only tested there. It should run on other Google TVs, but layout, HDMI inputs and performance may need work. Issues and pull requests are welcome, but there's no promise of support.
 
-![The Top Shelf on Netflix: The Diplomat, popular on Netflix right now](docs/top-shelf.jpg)
+![Moving along the dock swaps the Top Shelf art; pressing down slides into the app grid](docs/demo.gif)
 
 | Browsing the grid | Apple TV's Top Shelf |
 |---|---|
 | ![The grid of apps under a dark wash of the artwork](docs/browse.jpg) | ![Slow Horses, popular on Apple TV](docs/top-shelf-apple-tv.jpg) |
 
-<sub>Screenshots from the Android TV emulator, signed in to none of the services: the art is what each one has popular right now.</sub>
+<sub>Recorded on the Android TV emulator (smoother on a real TV), signed in to none of the services: the art is what each one has popular right now.</sub>
 
 ## How it behaves
 
